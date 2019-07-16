@@ -72,7 +72,10 @@ urlpatterns = [
     url(r'^boards/(?P<pk>\d+)/topics/(?P<topic_pk>\d+)/posts/(?P<post_pk>\d+)/edit/$', views.PostUpdateView.as_view(), name='edit_post'),
     url(r'^settings/account/$', accounts_views.UserUpdateView.as_view(), name='my_account'),
     url(r'^admin/', admin.site.urls),  # why is this not working ? it was working before we put in login and logout
-    url(r'^homepage/$', views.homepage)
+    url(r'^homepage/$', views.homepage),
+    url(r'^geolocation/$', views.geolocation),
+    url(r'^githubuserinfo/$', views.githubuserinfo)
+
 ]
 
 

@@ -11,6 +11,7 @@ from django.utils import timezone
 from django.utils.decorators import method_decorator
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.urls import reverse
+import requests
 
 def home(request):
     boards = Board.objects.all()
@@ -44,6 +45,34 @@ def about(request):
 
 def homepage(request):
     return HttpResponse('Burrah !!!!')
+
+
+def geolocation(request):
+    response = requests.get('http://api.ipstack.com/106.51.81.173?access_key=6700a880639b9ed7c993474e9845c387&output=json')
+    geodata = response.json()
+    return render(request,'geolocation.html', {
+        'ip': geodata['ip'],
+        'country': geodata['country_name'],
+        'city': geodata['city'],
+        'latitude': geodata['latitude'],
+        'longitude': geodata['longitude'],
+    })
+
+
+def githubuserinfo(request):
+    search_result = {}
+    if 'username' in request.GET:
+        username = request.GET['username']
+        url = 'https://api.github.com/users/%s' % username
+        response = requests.get(url)
+        search_was_successful = (response.status_code == 200)  # 200 = SUCCESS
+        search_result = response.json()
+        search_result['success'] = search_was_successful
+        search_result['rate'] = {
+            'limit': response.headers['X-RateLimit-Limit'],
+            'remaining': response.headers['X-RateLimit-Remaining'],
+        }
+    return render(request, 'githubuserinfo.html', {'search_result': search_result})
 
 
 @login_required
@@ -167,3 +196,5 @@ class PostListView(ListView):
         self.topic = get_object_or_404(Topic, board__pk=self.kwargs.get('pk'), pk=self.kwargs.get('topic_pk'))
         queryset = self.topic.posts.order_by('created_at')
         return queryset
+
+
