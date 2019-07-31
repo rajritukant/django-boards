@@ -31,7 +31,7 @@ from django.contrib.auth import views as auth_views
 from accounts import views as accounts_views
 from boards import views
 
-
+# import rest_framework
 
 
 urlpatterns = [
@@ -74,7 +74,10 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),  # why is this not working ? it was working before we put in login and logout
     url(r'^homepage/$', views.homepage),
     url(r'^geolocation/$', views.geolocation),
-    url(r'^githubuserinfo/$', views.githubuserinfo)
+    url(r'^githubuserinfo/$', views.githubuserinfo),
+
+
+    # url(r'^api-auth/', include('rest_framework.urls'))
 
 ]
 

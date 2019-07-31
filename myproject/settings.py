@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'boards',
     'widget_tweaks',
     'accounts',
+    'rest_framework',
 
 ]
 
